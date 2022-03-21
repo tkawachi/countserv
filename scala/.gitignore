@@ -1,0 +1,34 @@
+### https://raw.github.com/github/gitignore/218a941be92679ce67d0484547e3e142b2f5f6f0/Global/SBT.gitignore
+
+# Simple Build Tool
+# http://www.scala-sbt.org/release/docs/Getting-Started/Directories.html#configuring-version-control
+
+dist/*
+target/
+lib_managed/
+src_managed/
+project/boot/
+project/plugins/project/
+.history
+.cache
+.lib/
+
+
+### https://raw.github.com/github/gitignore/218a941be92679ce67d0484547e3e142b2f5f6f0/Scala.gitignore
+
+*.class
+*.log
+
+
+### https://raw.github.com/github/gitignore/218a941be92679ce67d0484547e3e142b2f5f6f0/Global/Metals.gitignore
+
+ # Generated Metals (Scala Language Server) files
+ # Reference: https://scalameta.org/metals/
+.metals/
+metals.sbt
+.bloop/
+project/metals.sbt
+
+.bsp/
+
+.vscode/
