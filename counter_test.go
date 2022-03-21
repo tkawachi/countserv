@@ -111,3 +111,51 @@ func TestClone(t *testing.T) {
 		t.Errorf("Expected %v, got %v", expected, estimates)
 	}
 }
+
+func BenchmarkInsertSameUsers(b *testing.B) {
+	counter := NewCounter()
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		counter.Insert("item1", "user1")
+	}
+}
+
+func BenchmarkInsertDifferentUsers(b *testing.B) {
+	counter := NewCounter()
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		counter.Insert("item1", fmt.Sprintf("user%d", i))
+	}
+}
+
+func BenchmarkEncode(b *testing.B) {
+	counter := NewCounter()
+	for i := 0; i < 10000; i++ {
+		for j := 0; j < 100; j++ {
+			counter.Insert(fmt.Sprintf("item%d", j), fmt.Sprintf("user%d", i))
+		}
+	}
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		buf := bytes.NewBuffer(nil)
+		json.NewEncoder(buf).Encode(counter)
+	}
+}
+
+func BenchmarkDecode(b *testing.B) {
+	counter := NewCounter()
+	for i := 0; i < 10000; i++ {
+		for j := 0; j < 100; j++ {
+			counter.Insert(fmt.Sprintf("item%d", j), fmt.Sprintf("user%d", i))
+		}
+	}
+	buf := bytes.NewBuffer(nil)
+	json.NewEncoder(buf).Encode(counter)
+	jsonBytes := buf.Bytes()
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		var counter2 Counter
+		buf2 := bytes.NewBuffer(jsonBytes)
+		json.NewDecoder(buf2).Decode(&counter2)
+	}
+}
