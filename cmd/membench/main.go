@@ -15,8 +15,9 @@ func main() {
 		arr = append(arr, sketch)
 		// Generate random UUID
 		for j := 0; j < 10000; j++ {
-			id := uuid.New()
-			sketch.Insert([]byte(id.String()))
+			id := uuid.New().String()
+			// id := fmt.Sprintf("user-%d", j)
+			sketch.Insert([]byte(id))
 		}
 	}
 	fmt.Println(len(arr))
